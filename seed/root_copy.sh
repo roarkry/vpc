@@ -4,7 +4,7 @@ if mount | grep encfs > /dev/null; then
 
 while : ; do
    start=$SECONDS
-   su -c "/home/plex/seed-plex-copy.sh" -s /bin/sh plex 
+   su -c "/home/plex/copy.sh" -s /bin/sh plex 
    finish=$SECONDS
    duration=$((finish - start))
    echo "Duration of Copy was $duration seconds"
