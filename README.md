@@ -20,6 +20,8 @@ It also assumes each box (SEED and PLEX) has a **plex** user in addition to root
 
 # Upon Reboot
 
+There are a few manual steps upon reboot.  RUTORRENT requires a few tweaks and unencrypting requires a password being entered (which is not programmed into any scripts)
+
 ## SEED
  - mount encfs reverse encryption folder as plex user (seed-plex-mountReverse.sh)
  - Set the download folder for /home/plex/downloads
@@ -58,7 +60,10 @@ part-1/
 ## PLEX Overview
 
 Amazon Cloud Drive is mounted on a Linode server running Ubuntu with Plex running on it. The mounted drive has an encrypted folder that is decrypted by a ENCFS mount, which provides a view into the unencrypted files (effectively unencrypting the files in realtime as they are read - so nothing unecrypted is actually stored on any server).
+
 ACD_CLI sync is applied every hour via a cron job (crontab -u plex -e --> updateAmazon.sh). This should allow new files to automatically be picked up
+
+PlexPy is also installed to provide metrics on Plex
 
 Primary Folders:
  - /home/plex/amazondrive (amazon cloud drive reference)
