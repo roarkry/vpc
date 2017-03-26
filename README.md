@@ -1,6 +1,6 @@
 # Files in GitHub
 
-All files should be copied to each server.  The file naming convention [server]-[user to run as]-[script description].sh
+This repo should be cloned to each server's /home/plex folder.  The file naming convention [server]-[user to run as]-[script description].sh
 
 It also assumes each box (SEED and PLEX) has a **plex** user in addition to root (hence the /home/plex references)
 
@@ -8,15 +8,15 @@ It also assumes each box (SEED and PLEX) has a **plex** user in addition to root
 
 ## SEED
 
-@reboot /home/plex/seed-root-rtorStart.sh
+@reboot /home/plex/vpc/seed/root_rtorrent_start.sh
 
-@reboot /home/plex/seed-root-routeSetup.sh
+@reboot /home/plex/vpc/seed/root_route_setup.sh
 
-*/20 * * * * /home/plex/rootcopy.sh >> /home/plex/copylogs.txt
+*/20 * * * * /home/plex/vpc/seed/root_copy.sh >> /home/plex/copylogs.txt
 
 ## PLEX
 
-20 * * * * /home/plex/rootupdate.sh >> /home/plex/updatelogs.txt
+20 * * * * /home/plex/vpc/plex/root_update.sh >> /home/plex/updatelogs.txt
 
 # Upon Reboot
 
@@ -42,6 +42,11 @@ Setup ip table and routes, etc...
 Setup rtorrent (last links). Running rtorrent as a non-root user. Use auto tools to move files upon completion. Subscribe to RSS feed and auto download all files matching /.*/ filter.
 Completed folder has a reverse encfs directory on top of it. Every 20 minutes a crontab job kicks off. It makes sure everything is copied via rclone copy and then deletes the completed files.
 
+Primary Folders:
+ - /home/plex/downloads (in progress downloads)
+ - /home/plex/completed (completed files are moved here to be copied to ACD)
+ - /home/plex/encrypted (encrypted mount of completed directory: readonly)
+
 References:
  - http://www.htpcguides.com/autoconnect-private-internet-access-vpn-boot-linux/
  - https://forum.linode.com/viewtopic.php?t=8737
@@ -54,6 +59,10 @@ part-1/
 
 Amazon Cloud Drive is mounted on a Linode server running Ubuntu with Plex running on it. The mounted drive has an encrypted folder that is decrypted by a ENCFS mount, which provides a view into the unencrypted files (effectively unencrypting the files in realtime as they are read - so nothing unecrypted is actually stored on any server).
 ACD_CLI sync is applied every hour via a cron job (crontab -u plex -e --> updateAmazon.sh). This should allow new files to automatically be picked up
+
+Primary Folders:
+ - /home/plex/amazondrive (amazon cloud drive reference)
+ - /home/plex/plex (unecrypted contents from ACD plex directory)
 
 References:
  - https://medium.com/@privatewahts/building-an-infinite-plex-media-server-usingamazon-cloud-drive-for-average-computer-users-d16caab62d14#.nsu75r1ie
