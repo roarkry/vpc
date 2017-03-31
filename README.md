@@ -54,8 +54,40 @@ References:
  - https://forum.linode.com/viewtopic.php?t=8737
  - https://helpdesk.privateinternetaccess.com/hc/en-us/articles/219438247-InstallingOpenVPN-PIA-on-Linux
  - http://linoxide.com/ubuntu-how-to/setup-rtorrent-rutorrent/
- - https://www.techandme.se/install-rutorrent-plex-on-a-headless-ubuntu-server-16-04-
-part-1/
+ - https://www.techandme.se/install-rutorrent-plex-on-a-headless-ubuntu-server-16-04-part-1/
+
+### SEED SETUP DETAILS
+#### Setup User
+adduser plex
+usermod -aG sudo plex
+
+#### Get Scripts
+git clone https://github.com/roarkry/vpc.git
+<Move .vimrc to home folder>
+<chmod 755 *.sh on seed folder and vpc folder>
+Update /vpc/seed/root_route_setup.sh to use correct IP address
+
+#### Setup OPENVPN
+sudo apt-get install openvpn
+<COPY VPN FILES to /etc/openvpn, SET LOGIN FILE, AND MAKE .SH FILES CHMOD 755>
+update /etc/default/openvpn to autostart USE
+<APPLY IP FILTER STUFF & SET TO RUN AT REBOOT VIA CRON JOB>
+
+#### Test OpenVPN
+sudo reboot -0
+if successful, IP address should be different (helper-getIp.sh) and ssh should still work
+
+#### Setup rutorrent (follow this: https://www.techandme.se/install-rutorrent-plex-on-a-headless-ubuntu-server-16-04-part-1/)
+sudo apt-get install rtorrent -y
+sudo apt-get install php php7.0-cli php7.0-json php7.0-curl php7.0-cgi php7.0-mbstring libapache2-mod-php libapache2-mod-scgi apache2 -y
+sudo apt-get install unrar unzip ffmpeg mediainfo -y
+cd /var/www/html
+sudo apt-get install git -y && sudo git clone https://github.com/Novik/ruTorrent.git && sudo apt-get purge git -y
+sudo chown -R plex:www-data ruTorrent/ && sudo chmod -R 770 ruTorrent/
+sudo apt-get install screen -y
+setup .rtorrent.rc as plex user in home directory
+don't setup .rtorrent.session directory and configure in .rc files
+set download directory to ext3 volume and directory that is created by plex user
 
 ## PLEX Overview
 
