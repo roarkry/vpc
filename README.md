@@ -17,6 +17,7 @@ It also assumes each box (SEED and PLEX) has a **plex** user in addition to root
 ## PLEX
 
 20 * * * * /home/plex/vpc/plex/root_update.sh >> /home/plex/updatelogs.txt
+*/5 * * * * /home/plex/vpc/plex/root_fixmount.sh >> /home/plex/acdlogs.txt
 
 # Upon Reboot
 
@@ -88,6 +89,8 @@ sudo apt-get install screen -y
 setup .rtorrent.rc as plex user in home directory
 don't setup .rtorrent.session directory and configure in .rc files
 set download directory to ext3 volume and directory that is created by plex user
+Setup rclone with acd
+
 
 ## PLEX Overview
 
