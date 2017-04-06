@@ -103,6 +103,9 @@ PlexPy is also installed to provide metrics on Plex
 Primary Folders:
  - /home/plex/amazondrive (amazon cloud drive reference)
  - /home/plex/plex (unecrypted contents from ACD plex directory)
+ 
+### Renaming files should occur from plex machine
+ - Example script: rename -n 's/Season (..) Episode (..)/- S$1E$2/g' *
 
 References:
  - https://medium.com/@privatewahts/building-an-infinite-plex-media-server-usingamazon-cloud-drive-for-average-computer-users-d16caab62d14#.nsu75r1ie
