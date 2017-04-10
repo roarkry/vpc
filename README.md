@@ -39,11 +39,11 @@ Set the download folder, switch the automove configuration from copy to move aga
 
 ## SEED Overview
 
-Setting up a Seedbox using OpenVPN and PIA in Ubuntu 14.04.
-Had issue around DNS, which was resolved using the first link - had to hard code nameservers in /etc/resolv.conf (removed everything else). Third link has alternative openvpn.zip files. Had to also disable Auto-configure Networking in Linode Setup access to SSH (via second link).
-Setup ip table and routes, etc...
-Setup rtorrent (last links). Running rtorrent as a non-root user. Use auto tools to move files upon completion. Subscribe to RSS feed and auto download all files matching /.*/ filter.
-Completed folder has a reverse encfs directory on top of it. Every 20 minutes a crontab job kicks off. It makes sure everything is copied via rclone copy and then deletes the completed files.
+ - Setting up a Seedbox using OpenVPN and PIA in Ubuntu 14.04.
+ - Had issue around DNS, which was resolved using the first link - had to hard code nameservers in /etc/resolv.conf (removed everything else). Third link has alternative openvpn.zip files. Had to also disable Auto-configure Networking in Linode Setup access to SSH (via second link).
+ - Setup ip table and routes, etc...
+ - Setup rtorrent (last links). Running rtorrent as a non-root user. Use auto tools to move files upon completion. Subscribe to RSS feed and auto download all files matching /.*/ filter.
+ - Completed folder has a reverse encfs directory on top of it. Every 20 minutes a crontab job kicks off. It makes sure everything is copied via rclone copy and then deletes the completed files.
 
 Primary Folders:
  - /home/plex/downloads (in progress downloads)
@@ -79,17 +79,18 @@ sudo reboot -0
 if successful, IP address should be different (helper-getIp.sh) and ssh should still work
 
 #### Setup rutorrent (follow this: https://www.techandme.se/install-rutorrent-plex-on-a-headless-ubuntu-server-16-04-part-1/)
-sudo apt-get install rtorrent -y
-sudo apt-get install php php7.0-cli php7.0-json php7.0-curl php7.0-cgi php7.0-mbstring libapache2-mod-php libapache2-mod-scgi apache2 -y
-sudo apt-get install unrar unzip ffmpeg mediainfo -y
-cd /var/www/html
-sudo apt-get install git -y && sudo git clone https://github.com/Novik/ruTorrent.git && sudo apt-get purge git -y
-sudo chown -R plex:www-data ruTorrent/ && sudo chmod -R 770 ruTorrent/
-sudo apt-get install screen -y
-setup .rtorrent.rc as plex user in home directory
-don't setup .rtorrent.session directory and configure in .rc files
-set download directory to ext3 volume and directory that is created by plex user
-Setup rclone with acd
+ - sudo apt-get install rtorrent -y
+ - sudo apt-get install php php7.0-cli php7.0-json php7.0-curl php7.0-cgi php7.0-mbstring libapache2-mod-php libapache2-mod-scgi apache2 -y
+ - sudo apt-get install unrar unzip ffmpeg mediainfo -y
+ - cd /var/www/html
+ - sudo apt-get install git -y && sudo git clone https://github.com/Novik/ruTorrent.git && sudo apt-get purge git -y
+ - sudo chown -R plex:www-data ruTorrent/ && sudo chmod -R 770 ruTorrent/
+ - sudo apt-get install screen -y
+ - setup .rtorrent.rc as plex user in home directory
+ - don't setup .rtorrent.session directory and configure in .rc files
+ - set download directory to ext3 volume and directory that is created by plex user
+ - Setup rclone with acd
+ - create symlink (ln -s) to external drive into home directory (for some reason only thing that seems to work for rTorrent being able to access the directory and write to it)
 
 
 ## PLEX Overview
@@ -107,8 +108,13 @@ Primary Folders:
 ### Renaming files should occur from plex machine
  - Example script: rename -n 's/Season (..) Episode (..)/- S$1E$2/g' *
 
-References:
- - https://medium.com/@privatewahts/building-an-infinite-plex-media-server-usingamazon-cloud-drive-for-average-computer-users-d16caab62d14#.nsu75r1ie
+#### Setup plex (follow this: https://medium.com/@privatewahts/building-an-infinite-plex-media-server-usingamazon-cloud-drive-for-average-computer-users-d16caab62d14#.nsu75r1ie)
+ - install plex, encfs, acd_cli
+ - create plex user
+ - configure acd_cli as plex user
+ - configure encfs to decrypt as plex user
+ - configure plex with ssh tunnel (enter user account, create libraries)
+ - install plexpy
 
 ## Comments
 The encfs configuration is stored in LASTPASS, DONT LOSE THIS (otherwise data cannot be
